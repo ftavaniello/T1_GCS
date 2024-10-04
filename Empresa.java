@@ -24,7 +24,23 @@ public class Empresa {
         pedidos.add(pedido);
     }
 
-    public ArrayList pedidosIntervaloTempo(LocalDate dataInicial, LocalDate dataFinal){
-        return null;
+    public void setDepartamentos(ArrayList<Departamento> departamentos) {
+        this.departamentos = departamentos;
+    }
+
+    public void setPedidos(ArrayList<Pedido> pedidos) {
+        this.pedidos = pedidos;
+    }
+
+
+    public ArrayList<Pedido> pedidosIntervaloTempo(LocalDate dataInicial, LocalDate dataFinal){
+        ArrayList<Pedido> pedidosPeloTempo = new ArrayList<>();
+        
+        for(int i = 0; i < pedidos.size(); i++){
+            if(pedidos.get(i).getDataCriacao().isAfter(dataInicial) && pedidos.get(i).getDataCriacao().isBefore(dataFinal)){
+                pedidosPeloTempo.add(pedidos.get(i)); 
+            }
+        }
+        return pedidosPeloTempo;
     }
 }
