@@ -59,9 +59,43 @@ public class App {
 
 
         public void menuFuncionario (Usuario funcionario) {
-            
+            while (true) { 
+            System.out.println(funcionario.getNome() + ", o que você deseja fazer? ");
+            System.out.println("1 - Solicitar uma aquisição");
+            System.out.println("2 - Ver o meu histórico de solicitações");
+            System.out.println("3 - Sair.");
+            int n = entrada.nextInt();
+            if (n == 1) {
+                solicitarPedido(funcionario);
+            }
+            else if (n == 2) {
+                //historico
+            }
+            else if (n == 3) {
+                break;
+            }
+            else {
+                System.out.println("Informe uma opção válida.");
+            }
+            }
         } 
 
+        public void solicitarPedido (Usuario usuario) {
+        Produto p1 = new Produto("Caneta BIC cor azul", "Caneta", 2);
+        Produto p2 = new Produto("Bloco de notas", "Bloco de notas", 10);
+        Produto p3 = new Produto("Computador", "Computador", 3000);
+        Produto p4 = new Produto("Café", "Café", 20);
+        Produto p5 = new Produto("Mousepad", "Mousepad", 20);
+        TotalDeItens todosProdutos = new TotalDeItens();
+        todosProdutos.adicionaProduto(p1);
+        todosProdutos.adicionaProduto(p2);
+        todosProdutos.adicionaProduto(p3);
+        todosProdutos.adicionaProduto(p4);
+        todosProdutos.adicionaProduto(p5);
+
+        //System.out.println("Entrei no pedido");
+        
+    }
 
         public void dadosInicias() {
         ArrayList <Usuario> usuariosDTI = new ArrayList<>();
@@ -121,5 +155,5 @@ public class App {
 
         empresa.setDepartamentos(departamentos);
 
-        }
     }
+}
