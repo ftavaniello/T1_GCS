@@ -3,9 +3,12 @@ public class Usuario {
     private String nome;
     private String tipo;
     
-    public Usuario(int identificador, String nome, String tipo){
+    public Usuario(int identificador, String nome){
         this.identificador = identificador;
+        this.nome = nome;
 
+        String numIdentificador = String.valueOf(identificador);
+        String doisPrimeiros = numIdentificador.substring(0, 2);
     }
 
     public int getIdentificador() {
@@ -20,4 +23,7 @@ public class Usuario {
         return tipo;
     }
 
+    public void aprovarPedido(Pedido pedido){
+        pedido.setStatus("Aprovado");
+    }
 }
