@@ -93,7 +93,7 @@ public class App {
         todosProdutos.adicionaProduto(p4);
         todosProdutos.adicionaProduto(p5);
 
-        //System.out.println("Entrei no pedido");
+        System.out.println("Entrei no pedido");
         
     }
 
