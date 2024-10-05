@@ -14,31 +14,32 @@ public class App {
         dadosInicias();
         
         //menu inicial
-        int cod = 0;
         while (true) {
+            int n;
             System.out.println("Bem-vindo ao sistema de pedidos de aquisição.");
-            System.out.print("Insira o seu código identificador: ");
-            cod = entrada.nextInt();
-            System.out.println("1 - Funcionário");
-            System.out.println("2 - Administrador");
-            System.out.println("0 - Sair");
-
-            Usuario usuarioAtual = null;
-            int opcao = entrada.nextInt();
-            entrada.nextLine();
-
-            if (opcao == 0) {
-                System.out.println("Encerrando o sistema...");
+            System.out.println("Insira o seu código identificador: [digite -1 para sair]");
+            n = entrada.nextInt();
+            if (n == -1) {
                 break;
             }
+            if (empresa.existeUsuario(n)) {
+                for (Departamento d : empresa.getDepartamentos()) {
+                    for (Usuario u : d.getUsuario()) {
+                        if (u.getIdentificador() == n) {
+                            if (u.getTipo().equals("Funcionario")) {
+                                System.out.println("ENTREI FUN");
+                                menuFuncionario(u);
+                            }
+                            else {
+                                System.out.println("ENTREI ADM");
+                            }
+                        }
+                    }
+                }
+            }
+            else {
+                System.out.println("Usuário não encontrado, tente novamente.");
 
-            switch (opcao) {
-                case 1:
-                    break;
-                case 2:
-                    break;
-                default:
-                    System.out.println("Opção inválida. Tente novamente.");
             }
         }
 
@@ -55,6 +56,12 @@ public class App {
         // for (Pedido pe : p) {
         //     System.out.println(pe.toString());
         }
+
+
+        public void menuFuncionario (Usuario funcionario) {
+            
+        } 
+
 
         public void dadosInicias() {
         ArrayList <Usuario> usuariosDTI = new ArrayList<>();

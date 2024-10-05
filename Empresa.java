@@ -1,6 +1,5 @@
-import java.util.ArrayList;
 import java.time.LocalDate;
-import java.util.List;
+import java.util.ArrayList;
 
 
 public class Empresa {
@@ -42,5 +41,17 @@ public class Empresa {
             }
         }
         return pedidosPeloTempo;
+    }
+
+    public boolean existeUsuario (int n) {
+        for (Departamento d : departamentos) {
+            for (Usuario u : d.getUsuario()) {
+                if (u.getIdentificador() == n) {
+                    return true;
+                }
+            }
+        }
+        
+        return false;
     }
 }

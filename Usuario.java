@@ -9,8 +9,14 @@ public class Usuario {
 
         String numIdentificador = String.valueOf(identificador);
         String doisPrimeiros = numIdentificador.substring(0, 2);
-    }
-
+        if (doisPrimeiros.equals("11")) {
+            this.tipo = "Funcionario";
+        }
+        else {
+            this.tipo = "Administrador";
+        }
+        }
+    
     public int getIdentificador() {
         return identificador;
     }
