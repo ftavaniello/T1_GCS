@@ -28,9 +28,9 @@ public class Pedido {
     }
 
     public String toString() {
-        String retorno = "Usuário solicitante: " + this.usuSolicitante.getNome() + "\nData do pedido: " + this.dataCriacao + "\nStatus: " + this.status + "\nProdutos: ";
+        String retorno = "Usuário solicitante: " + this.usuSolicitante.getNome() + "\nData do pedido: " + this.dataCriacao + "\nStatus: " + this.status + "\nProdutos: \n" ;
         for (Produto p : produtos) {
-            retorno += p.toString() + "\n";
+            retorno += p.toString();
         }
         retorno += "\nValor total: R$ " + calculaTotal();
         return retorno;
@@ -78,6 +78,10 @@ public class Pedido {
 
     public void adicionaProduto(Produto p) {
         produtos.add(p);
+    }
+
+    public String getStatus () {
+        return status;
     }
 
     public double calculaTotal() {

@@ -28,11 +28,10 @@ public class App {
                     for (Usuario u : d.getUsuario()) {
                         if (u.getIdentificador() == n) {
                             if (u.getTipo().equals("Funcionario")) {
-                                System.out.println("ENTREI FUN");
                                 menuFuncionario(u);
                             }
                             else {
-                                System.out.println("ENTREI ADM");
+                                //menu do adm
                             }
                         }
                     }
@@ -70,7 +69,42 @@ public class App {
                 solicitarPedido(funcionario);
             }
             else if (n == 2) {
-                //historico
+                System.out.println("Histórico de pedidos de " + funcionario.getNome() + ": ");
+                ArrayList<Pedido> pedidosFuncionario = new ArrayList<>();
+                for (Pedido p : empresa.getPedidos()) {
+                    if (p.getUsuSolicitante() == funcionario) {
+                        pedidosFuncionario.add(p);
+                }
+                }
+                if (pedidosFuncionario.isEmpty()) {
+                    System.out.println("Você não realizou nenhum pedido.");
+                }
+                else {
+                    int c = 1;
+                    for (Pedido x : pedidosFuncionario) {
+                        System.out.println("Pedido " + c );
+                        System.out.println(x.toString());
+                        c++;
+                    }
+                    System.out.print("Deseja excluir algum pedido? [S/N] ");
+                    entrada.nextLine();
+                    String r = entrada.nextLine();
+                    if (r.toUpperCase().equals("S")){
+                        System.out.print("Qual o número do pedido? ");
+                        int num = entrada.nextInt();
+                        if (pedidosFuncionario.get(num-1).getStatus().equals("Aberto")) {
+                             empresa.removePedido(pedidosFuncionario.get(num-1));
+                             System.out.println("Pedido removido com sucesso");
+                        }
+                        else {
+                            System.out.println("Houve uma falha: um pedido só pode ser removido se seu status estiver ABERTO");
+                        }
+                       
+                }
+                else {
+                    break;
+                }
+            }
             }
             else if (n == 3) {
                 break;

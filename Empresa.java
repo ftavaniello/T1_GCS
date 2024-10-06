@@ -57,4 +57,8 @@ public class Empresa {
     public void adicionaPedido (Pedido p) {
         pedidos.add(p);
     }
+
+    public void removePedido (Pedido p) {
+        pedidos.remove(p);
+    }
 }
