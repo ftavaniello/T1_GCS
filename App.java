@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -86,16 +87,59 @@ public class App {
         Produto p3 = new Produto("Computador", "Computador", 3000);
         Produto p4 = new Produto("Café", "Café", 20);
         Produto p5 = new Produto("Mousepad", "Mousepad", 20);
-        TotalDeItens todosProdutos = new TotalDeItens();
-        todosProdutos.adicionaProduto(p1);
-        todosProdutos.adicionaProduto(p2);
-        todosProdutos.adicionaProduto(p3);
-        todosProdutos.adicionaProduto(p4);
-        todosProdutos.adicionaProduto(p5);
+        ArrayList<Produto> todosProdutos = new ArrayList<>();
+        todosProdutos.add(p1);
+        todosProdutos.add(p2);
+        todosProdutos.add(p3);
+        todosProdutos.add(p4);
+        todosProdutos.add(p5);
 
-        System.out.println("Entrei no pedido");
+        Departamento depPedido = new Departamento(null, null);
+        for (Departamento d : empresa.getDepartamentos()) {
+            for (Usuario u : d.getUsuario()) {
+                if (u == usuario) {
+                    depPedido = d;
+                    break;
+            }
+        }
+        }
+
+        ArrayList<Produto> compras = new ArrayList<>();
         
-    }
+        while (true) {
+
+        System.out.print("Informe o dia de hoje: ");
+        int dia = entrada.nextInt();
+        System.out.print("Informe o mês: ");
+        int mes = entrada.nextInt();
+
+        System.out.println(usuario.getNome() + " qual item abaixo você deseja adquirir? ");
+        int contador = 1;
+        for (Produto i : todosProdutos) {
+            System.out.println(contador + " - " + i.toString());
+            contador ++;
+        }
+        System.out.println("Qual desse você deseja adquirir? ");
+        int c = entrada.nextInt();
+        System.out.println("Quantas unidades? ");
+        int qtd = entrada.nextInt();
+        entrada.nextLine();
+        for (int i = 1; i<=qtd; i++) {
+             compras.add(todosProdutos.get(c-1));
+        } 
+        System.out.println("Total desse item: R$ " +  todosProdutos.get(c-1).getValorUnitario() * qtd);
+        System.out.println("Deseja adicionar mais um item? [S/N]");
+        String resp = entrada.nextLine();
+        if (resp.toUpperCase().equals("N")) {
+            System.out.println("Revisão do pedido: ");
+            Pedido p = new Pedido (usuario, depPedido, LocalDate.of(2024, mes,dia));
+            p.setProdutos(compras);
+            empresa.adicionaPedido(p);
+            System.out.println(p.toString());
+            break;
+        }
+        }
+        }
 
         public void dadosInicias() {
         ArrayList <Usuario> usuariosDTI = new ArrayList<>();

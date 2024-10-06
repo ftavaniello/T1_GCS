@@ -50,8 +50,11 @@ public class Empresa {
                     return true;
                 }
             }
-        }
-        
+        }     
         return false;
+    }
+
+    public void adicionaPedido (Pedido p) {
+        pedidos.add(p);
     }
 }

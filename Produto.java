@@ -33,6 +33,8 @@ public class Produto {
         this.valorUnitario = valorUnitario;
     }
     
-    
+    public String toString() {
+        return "Nome: " + this.nome + "\nDescrição: " + this.descricao + "\nPreco: R$ " + this.valorUnitario;
+    }
     
 }

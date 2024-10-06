@@ -16,6 +16,7 @@ public class Pedido {
         this.depSolicitante = depSolicitante;
         this.dataCriacao = dataCriacao;
         produtos = new ArrayList<>();
+        this.status = "Aberto";
     }
 
     public LocalDate getDataCriacao() {
@@ -27,7 +28,12 @@ public class Pedido {
     }
 
     public String toString() {
-        return "data "+ dataCriacao;
+        String retorno = "Usuário solicitante: " + this.usuSolicitante.getNome() + "\nData do pedido: " + this.dataCriacao + "\nStatus: " + this.status + "\nProdutos: ";
+        for (Produto p : produtos) {
+            retorno += p.toString() + "\n";
+        }
+        retorno += "\nValor total: R$ " + calculaTotal();
+        return retorno;
     }
 
     public Usuario getUsuSolicitante() {
@@ -72,6 +78,14 @@ public class Pedido {
 
     public void adicionaProduto(Produto p) {
         produtos.add(p);
+    }
+
+    public double calculaTotal() {
+        double total = 0;
+        for (Produto p : produtos) {
+            total += p.getValorUnitario();
+        }   
+        return total;
     }
 
 }
