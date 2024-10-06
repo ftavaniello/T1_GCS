@@ -84,6 +84,10 @@ public class Pedido {
         return status;
     }
 
+    public String setStatus () {
+        return status;
+    }
+
     public double calculaTotal() {
         double total = 0;
         for (Produto p : produtos) {
@@ -91,5 +95,4 @@ public class Pedido {
         }   
         return total;
     }
-
 }

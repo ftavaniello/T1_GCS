@@ -34,6 +34,4 @@ public class Departamento {
         sb.append('}');
         return sb.toString();
     }
-
-    
-    }
+}
