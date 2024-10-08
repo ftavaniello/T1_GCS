@@ -72,13 +72,13 @@ public class App {
                     solicitarPedido(administrador);
                 }
                 else if (n == 2) {
-                    //avaliar solicitações
+                    avaliarSolicitacoes();
                 }else if (n == 3) {
-                    //listar todos os pedidos entre 2 datas
+                    listarPedidosEntreDatas();
                 }else if (n == 4) {
-                    //buscar pedidos por funcionário solicitante 
+                    buscarPedidosPorFuncionario();
                 }else if (n == 5) {
-                    //buscar pedidos por descrição do item
+                    buscarPedidosPorDescricao();
                 }else if (n == 6) {
                     menuEstatísticas(administrador, empresa.getPedidos());
                 }else if (n == 7) {
@@ -88,6 +88,107 @@ public class App {
                 }
             }
         }
+
+    int id;
+    String descricao;
+    String funcionario;
+    String dataPedido;
+    boolean aprovado;
+        //2 avaliar todas as solicitações
+    public void avaliarSolicitacoes() {
+        boolean encontrou = false;
+        System.out.println("Pedidos abertos:");
+        for (Pedido pedido : pedidos) {
+            if (!pedido.aprovado) {
+                System.out.println(pedido);
+                encontrou = true;
+            }
+        }
+        if (!encontrou) {
+            System.out.println("Não há pedidos abertos para avaliar.");
+            return;
+        }
+
+        while (true) {
+            System.out.print("Digite o ID do pedido que deseja reprovar (ou -1 para voltar): ");
+            int id= entrada.nextInt();
+            entrada.nextLine();
+
+            if (id == -1) {
+                break;
+            }
+
+            boolean pedidoEncontrado = false;
+            for (Pedido pedido : pedidos) {
+                if (pedido.id == id && !pedido.aprovado) {
+                    System.out.print("Deseja reprovar o pedido (S/N)? ");
+                    String resposta = entrada.nextLine();
+                    if (resposta.equalsIgnoreCase("S")) {
+                        pedido.aprovado = false;
+                        System.out.println("Pedido reprovado.");
+                    } else {
+                        System.out.println("Operação cancelada.");
+                    }
+                    pedidoEncontrado = true;
+                    break;
+                }
+            }
+
+            if (!pedidoEncontrado) {
+                System.out.println("Pedido não encontrado.");
+            }
+
+            System.out.print("Deseja reprovar mais algum pedido? ");
+            String resposta = entrada.nextLine();
+            if (!resposta.equalsIgnoreCase("S")) {
+                break;
+            }
+        }
+    }
+    // 3 listar pedidos entre duas datas
+    public void listarPedidosEntreDatas() {
+        System.out.print("Digite a data inicial (dd/MM/yyyy): ");
+        String dataInicial= entrada.nextLine();
+        System.out.print("Digite a data final (dd/MM/yyyy): ");
+        String dataFinal = entrada.nextLine();
+
+        for (Pedido pedido : pedidos) {
+            if (estaNoIntervalo(pedido.dataPedido, dataInicial, dataFinal)) {
+                System.out.println(pedido);
+            }
+        }
+    }
+    public boolean estaNoIntervalo(String dataPedido, String dataInicial, String dataFinal) {
+        return dataPedido.compareTo(dataInicial) >= 0 && dataPedido.compareTo(dataFinal) <= 0;
+    }
+
+
+    //4 buscar pedidos por funcionário
+    public void buscarPedidosPorFuncionario() {
+        System.out.print("Digite o nome do funcionário: ");
+        String nome = entrada.nextLine();
+
+        for (Pedido pedido : pedidos) {
+            if (pedido.funcionario.equalsIgnoreCase(nome)) {
+                System.out.println(pedido);
+            }
+        }
+    }
+
+    // 5 buscar pedidos pela descrição do item
+    public void buscarPedidosPorDescricao() {
+        System.out.print("Digite a descrição do item: ");
+        String descricao = entrada.nextLine();;
+
+        for (Pedido pedido : pedidos) {
+            if (pedido.descricao.toLowerCase().contains(descricao.toLowerCase())) {
+                System.out.println(pedido);
+            }
+        }
+    }
+
+
+
 
         public void menuEstatísticas (Usuario administrador, ArrayList<Pedido> arrayList) {
             while (true){
