@@ -98,7 +98,7 @@ public class App {
                     break;
                 }
                 for (Pedido pedido : empresa.getPedidos()) {
-                    if (!pedido.getStatus().quals("Aprovado")) {
+                    if (!pedido.getStatus().equals("Aberto")) {
                         System.out.print("Deseja Aprovar o pedido?");
                         String resposta = entrada.nextLine();
                         if (resposta.equalsIgnoreCase("S")) {
