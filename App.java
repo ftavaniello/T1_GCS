@@ -175,18 +175,42 @@ public class App {
         }
     }
 
-    // 5 buscar pedidos pela descrição do item
-    public void buscarPedidosPorDescricao() {
-        System.out.print("Digite a descrição do item: ");
-        String descricao = entrada.nextLine();;
+    // 5 buscar pedidos por descrição do item
+    public void buscarPedidos() {
+        System.out.println("Como você gostaria de pesquisar?");
+        System.out.println("1 - Pesquisar por nome do pedido");
+        System.out.println("2 - Pesquisar por descrição do pedido");
+        int opcao = entrada.nextInt();
+        entrada.nextLine();
 
-        for (Pedido pedido : pedidos) {
-            if (pedido.descricao.toLowerCase().contains(descricao.toLowerCase())) {
-                System.out.println(pedido);
-            }
+        if (opcao == 1) {
+            System.out.print("Digite o nome do pedido: ");
+            String nome = entrada.nextLine();
+            buscarPorNome(nome);
+        } else if (opcao == 2) {
+            System.out.print("Digite a descrição do pedido: ");
+            String descricao = entrada.nextLine();
+            buscarPorDescricao(descricao);
+        } else {
+            System.out.println("Opção inválida. Por favor, tente novamente.");
         }
     }
 
+    // 5.1 buscar por nome do pedido
+    private void buscarPorNome(String nome) {
+        boolean encontrou = false;
+        for (Pedido pedido : pedidos) {
+            if (pedido.getNome().equalsIgnoreCase(nome)) {
+                System.out.println(pedido);
+                encontrou = true;
+            }
+        }
+        if (!encontrou) {
+            System.out.println("Nenhum pedido encontrado com esse nome.");
+        }
+    }
+
+  
 
 
 
