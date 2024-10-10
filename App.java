@@ -77,16 +77,11 @@ public class App {
         }
 
         //2 avaliar todas as solicitações
-        int id;
-        String descricao;
-        String funcionario;
-        String dataPedido;
-        boolean aprovado;
         public void avaliarSolicitacoes() {
             boolean encontrou = false;
             System.out.println("Pedidos abertos:");
             for (Pedido pedido : empresa.getPedidos()) {
-                if (!pedido.aprovado) {
+                if (!pedido.getStatus().equals("Aberto")) {
                     System.out.println(pedido);
                     encontrou = true;
                 }
@@ -96,34 +91,39 @@ public class App {
                 return;
             }
             while (true) {
-                System.out.print("Digite o ID do pedido que deseja reprovar (ou -1 para voltar): ");
+                System.out.print("Digite o ID do pedido que deseja aprovar: ");
                 int id= entrada.nextInt();
                 entrada.nextLine();
                 if (id == -1) {
                     break;
                 }
-                boolean pedidoEncontrado = false;
                 for (Pedido pedido : empresa.getPedidos()) {
-                    if (pedido.id == id && !pedido.aprovado) {
-                        System.out.print("Deseja reprovar o pedido (S/N)? ");
+                    if (!pedido.getStatus().quals("Aprovado")) {
+                        System.out.print("Deseja Aprovar o pedido?");
                         String resposta = entrada.nextLine();
                         if (resposta.equalsIgnoreCase("S")) {
-                            pedido.aprovado = false;
-                            System.out.println("Pedido reprovado.");
+                            pedido.setStatus = ("Aprovado");
+                            System.out.println("Pedido aprovado.");
                         } else {
-                            System.out.println("Operação cancelada.");
+                            System.out.println("Deseja concluir?");
+                            String resposta2 = entrada.nextLine();
+                            if (resposta2.equalsIgnoreCase("S")) {
+                                pedido.setStatus("Concluído");
+                                System.out.println("Pedido concluído");
+                            } else {
+                                System.out.println("Deseja reprovar?");
+                                String resposta3 = entrada.nextLine();
+                                if (resposta3.equalsIgnoreCase("S")) {
+                                    pedido.setStatus("Reprovado");
+                                    System.out.println("Pedido reprovado");
+                                }
+                            }
                         }
-                        pedidoEncontrado = true;
-                        break;
                     }
-                }
-                if (!pedidoEncontrado) {
-                    System.out.println("Pedido não encontrado.");
                 }
                 System.out.print("Deseja reprovar mais algum pedido? ");
                 String resposta = entrada.nextLine();
                 if (!resposta.equalsIgnoreCase("S")) {
-                    break;
                 }
             }
         }
