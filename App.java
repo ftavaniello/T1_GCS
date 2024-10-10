@@ -167,68 +167,61 @@ public class App {
             }
         }
 
-<<<<<<< HEAD
-    // 5 buscar pedidos por descrição do item
-    public void buscarPedidos() {
-        System.out.println("Como você gostaria de pesquisar?");
-        System.out.println("1 - Pesquisar por nome do pedido");
-        System.out.println("2 - Pesquisar por descrição do pedido");
-        int opcao = entrada.nextInt();
-        entrada.nextLine();
+        // 5 buscar pedidos por descrição do item
+        public void buscarPedidos() {
+            System.out.println("Como você gostaria de pesquisar?");
+            System.out.println("1 - Pesquisar por nome do pedido");
+            System.out.println("2 - Pesquisar por descrição do pedido");
+            int opcao = entrada.nextInt();
+            entrada.nextLine();
 
-        if (opcao == 1) {
-            System.out.print("Digite o nome do pedido: ");
-            String nome = entrada.nextLine();
-            buscarPorNome(nome);
-        } else if (opcao == 2) {
-            System.out.print("Digite a descrição do pedido: ");
-            String descricao = entrada.nextLine();
-            buscarPorDescricao(descricao);
-        } else {
-            System.out.println("Opção inválida. Por favor, tente novamente.");
-        }
-    }
-
-    // 5.1 buscar por nome do pedido
-    private void buscarPorNome(String nome) {
-        boolean encontrou = false;
-        for (Pedido pedido : pedidos) {
-            if (pedido.getNome().equalsIgnoreCase(nome)) {
-                System.out.println(pedido);
-                encontrou = true;
+            if (opcao == 1) {
+                System.out.print("Digite o nome do pedido: ");
+                String nome = entrada.nextLine();
+                buscarPorNome(nome, empresa.getPedidos());
+            } else if (opcao == 2) {
+                System.out.print("Digite a descrição do pedido: ");
+                String descricao = entrada.nextLine();
+                buscarPorDescricao(descricao, empresa.getPedidos());
+            } else {
+                System.out.println("Opção inválida. Por favor, tente novamente.");
             }
         }
-        if (!encontrou) {
-            System.out.println("Nenhum pedido encontrado com esse nome.");
-        }
-    }
 
-    // 5.2 buscar por descrição do pedido
-    private void buscarPorDescricao(String descricao) {
-        boolean encontrou = false;
-        for (Pedido pedido : pedidos) {
-            if (pedido.getDescricao().toLowerCase().contains(descricao.toLowerCase())) {
-                System.out.println(pedido);
-                encontrou = true;
+        // 5.1 buscar por nome do pedido
+        private void buscarPorNome(String nome, ArrayList<Pedido> pedidos) {
+            boolean encontrou = false;
+            for (Pedido pedido : pedidos) {
+                if (produto.getNome().equalsIgnoreCase(nome)) {
+                    System.out.println(pedido);
+                    encontrou = true;
+                }
+            }
+            if (!encontrou) {
+                System.out.println("Nenhum pedido encontrado com esse nome.");
             }
         }
-        if (!encontrou) {
-            System.out.println("Nenhum pedido encontrado com essa descrição.");
+
+        // 5.2 buscar por descrição do pedido
+        private void buscarPorDescricao(String descricao, ArrayList<Pedido> pedidos) {
+            boolean encontrou = false;
+            for (Pedido p : pedidos) {
+                if (p.getProdutos().getDescricao().toLowerCase().contains(descricao.toLowerCase())) {
+                    System.out.println(p);
+                    encontrou = true;
+                }
+            }
+            if (!encontrou) {
+                System.out.println("Nenhum pedido encontrado com essa descrição.");
+            }
         }
-    }
 
-
-
-        public void menuEstatísticas (Usuario administrador, ArrayList<Pedido> arrayList) {
-=======
-        //6 menu de estatísticas
         public void menuEstatisticas (Usuario administrador) {
->>>>>>> 06405511c80f5eb04ec7c72912ab8d0b5f165672
             while (true){
                 System.out.println(administrador.getNome () + ", qual estatística você deseja ver?");
                 System.out.println("1 - Número total de pedidos, dividos por status e seus percentuais");
                 System.out.println("2 - Número de pedidos nos últimos 30 dias, e seus valores médios");
-                System.out.println("3 - Valor total de cada categoria nos últimos 3 dias");
+                System.out.println("3 - Valor total de cada categoria nos últimos 30 dias");
                 System.out.println("4 - Detalhes do pedido de maior valor em aberto");
                 System.out.println("5 - Sair");
                 int n = entrada.nextInt();
@@ -237,7 +230,7 @@ public class App {
                 }else if (n == 2){
                     pedidosUltimos30Dias(empresa.getPedidos());
                 }else if (n == 3){
-                    maiorPedidoAberto(empresa.getPedidos());
+                    valorPorCategoriaUltimos30Dias(empresa.getPedidos());
                 }else if (n == 4){
                     maiorPedidoAberto(empresa.getPedidos());
                 }else if (n == 5){
@@ -254,8 +247,9 @@ public class App {
             double aprovados = 0;
             double reprovados  = 0;
             double concluidos  = 0;
-            for(Pedido p : empresa.getPedidos()){
-                switch (empresa.getPedidos().getStatus()) {
+
+            for(Pedido p : pedidos){
+                switch (p.getStatus()) {
                     case "Aprovado":
                         aprovados++;
                         break;
@@ -267,13 +261,31 @@ public class App {
                         break;
                 }
             }
-            double percAprovados = (double) aprovados / totalPedidos * 100;
-            double percReprovados = (double) reprovados / totalPedidos * 100;
-            double percConcluídos = (double) concluidos / totalPedidos * 100;
 
-            System.out.println("A porcentagem de aprovados é de: " + percAprovados + 
-            "/nA porcentagem de reprovados é de: " + percReprovados + 
-            "/nA porcetnagem de concluídos é de: " + percConcluídos); 
+            if (aprovados > 0 && reprovados == 0 && concluidos == 0) {
+                System.out.println("A porcentagem de aprovados é de: 100%");
+                System.out.println("A porcentagem de reprovados é de: 0%");
+                System.out.println("A porcentagem de concluídos é de: 0%");
+                return;
+            }else if (reprovados > 0 && aprovados == 0 && concluidos == 0) {
+                System.out.println("A porcentagem de aprovados é de: 0%");
+                System.out.println("A porcentagem de reprovados é de: 100%");
+                System.out.println("A porcentagem de concluídos é de: 0%");
+                return;
+            }else if (concluidos > 0 && aprovados == 0 && reprovados == 0) {
+                System.out.println("A porcentagem de aprovados é de: 0%");
+                System.out.println("A porcentagem de reprovados é de: 0%");
+                System.out.println("A porcentagem de concluídos é de: 100%");
+                return;
+            }else{
+                double percAprovados = (aprovados / totalPedidos) * 100;
+                double percReprovados = (reprovados / totalPedidos) * 100;
+                double percConcluídos = (concluidos / totalPedidos) * 100;
+
+                System.out.println("A porcentagem de aprovados é de: " + percAprovados + "%");
+                System.out.println("A porcentagem de reprovados é de: " + percReprovados + "%"); 
+                System.out.println("A porcetnagem de concluídos é de: " + percConcluídos + "%");
+            }
         }
 
         //2 método para últimos 30 dias e valor médio
@@ -281,18 +293,31 @@ public class App {
             LocalDate hoje = LocalDate.now();
             LocalDate limite = hoje.minusDays(30);
             Map<String, Double> totalPorCategoria = new HashMap<>();
+            Map<String, Integer> contagemPorCategoria = new HashMap<>();
 
             for (Pedido pedido : pedidos) {
                 if (pedido.getDataCriacao().isAfter(limite)) {
                     for (Produto produto : pedido.getProdutos()) {
                         String categoria = produto.getDescricao();
-                        totalPorCategoria.put(categoria, totalPorCategoria.getOrDefault(categoria, 0.0) + produto.getValorUnitario());
+                        double valorUnitario = produto.getValorUnitario();
+
+                        // Atualiza o total por categoria
+                        totalPorCategoria.put(categoria, totalPorCategoria.getOrDefault(categoria, 0.0) + valorUnitario);
+                        // Atualiza a contagem por categoria
+                        contagemPorCategoria.put(categoria, contagemPorCategoria.getOrDefault(categoria, 0) + 1);
                     }
                 }
             }
 
+            // Exibe os resultados
             for (String categoria : totalPorCategoria.keySet()) {
-                System.out.println("Categoria: " + categoria + ", Valor Total: R$ " + totalPorCategoria.get(categoria));
+                double total = totalPorCategoria.get(categoria);
+                int contagem = contagemPorCategoria.get(categoria);
+                double media = total / contagem; // Calcula a média
+
+                System.out.println("Categoria: " + categoria + 
+                                ", Valor Total: R$ " + total + 
+                                ", Valor Médio: R$ " + media);
             }
         }
 
@@ -510,7 +535,6 @@ public class App {
         Pedido pedido2 = new Pedido(u4, rh, LocalDate.of(2024, 3, 26));
         Pedido pedido3 = new Pedido(u7, marketing, LocalDate.of(2024, 6, 15));
 
-        // Adicionando produtos ao pedido1
         Produto p1 = new Produto("Caneta BIC cor azul", "Caneta", 2);
         Produto p2 = new Produto("Bloco de notas", "Bloco de notas", 10);
         ArrayList<Produto> produtosPedido1 = new ArrayList<>();
@@ -518,7 +542,6 @@ public class App {
         produtosPedido1.add(p2);
         pedido1.setProdutos(produtosPedido1);
 
-        // Adicionando produtos ao pedido2
         Produto p3 = new Produto("Computador", "Computador", 3000);
         Produto p4 = new Produto("Café", "Café", 20);
         ArrayList<Produto> produtosPedido2 = new ArrayList<>();
@@ -526,7 +549,6 @@ public class App {
         produtosPedido2.add(p4);
         pedido2.setProdutos(produtosPedido2);
 
-        // Adicionando produtos ao pedido3
         Produto p5 = new Produto("Mousepad", "Mousepad", 20);
         ArrayList<Produto> produtosPedido3 = new ArrayList<>();
         produtosPedido3.add(p5);
@@ -537,10 +559,16 @@ public class App {
         empresa.adicionaPedido(pedido2);
         empresa.adicionaPedido(pedido3);
 
+        pedido1.setStatus("Aprovado");
+        pedido2.setStatus("Aprovado");
+        pedido3.setStatus("Reprovado");
+
+
+
     }
 }
 
-        // Pedido pedido1 = new Pedido(LocalDate.of(2024, 10, 4));
+        //Pedido pedido1 = new Pedido(LocalDate.of(2024, 10, 4));
         // Pedido pedido2 = new Pedido(LocalDate.of(2024,3,26));
 
         // empresa.registrarPedidos(pedido1);
