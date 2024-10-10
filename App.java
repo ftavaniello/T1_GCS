@@ -203,7 +203,19 @@ public class App {
         }
     }
 
-  
+    // 5.2 buscar por descrição do pedido
+    private void buscarPorDescricao(String descricao) {
+        boolean encontrou = false;
+        for (Pedido pedido : pedidos) {
+            if (pedido.getDescricao().toLowerCase().contains(descricao.toLowerCase())) {
+                System.out.println(pedido);
+                encontrou = true;
+            }
+        }
+        if (!encontrou) {
+            System.out.println("Nenhum pedido encontrado com essa descrição.");
+        }
+    }
 
 
 
