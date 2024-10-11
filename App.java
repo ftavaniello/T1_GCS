@@ -15,7 +15,6 @@ public class App {
     public void executar() {
         dadosInicias();
         
-        //menu inicial
         while (true) {
             int n;
             System.out.println("Bem-vindo ao sistema de pedidos de aquisição.");
@@ -32,7 +31,6 @@ public class App {
                                 menuFuncionario(u);
                             }
                             else {
-                                //menu do adm
                                 menuAdministrador(u);
                             }
                         }
@@ -44,7 +42,6 @@ public class App {
         }
     }
 
-        //menu administrador
         public void menuAdministrador (Usuario administrador){
             while (true){
                 System.out.println(administrador.getNome() + ", o que você deseja fazer? ");
@@ -57,7 +54,7 @@ public class App {
                 System.out.println("7 - Sair");
                 int n = entrada.nextInt();
                 if (n == 1) {
-                    solicitarPedido(administrador); //mesmo código do funcionário
+                    solicitarPedido(administrador);
                 }else if (n == 2) {
                     avaliarSolicitacoes();
                 }else if (n == 3) {
@@ -76,7 +73,7 @@ public class App {
             }
         }
 
-        //2 avaliar todas as solicitações
+        //2 avaliar todas as solicitações   MUDAAAARRR!!!
         public void avaliarSolicitacoes() {
             boolean encontrou = false;
             System.out.println("Pedidos abertos:");
@@ -128,51 +125,70 @@ public class App {
             }
         }
 
-        //3 listar pedidos entre duas datas
-        public void listarPedidosEntreDatas() {
-            System.out.print("Digite a data inicial (dd/MM/yyyy): ");
-            String dataInicial= entrada.nextLine();
-            System.out.print("Digite a data final (dd/MM/yyyy): ");
-            String dataFinal = entrada.nextLine();
+        //3 listar pedidos entre duas datas  MUDAAAARRR!!!!
+        // public void listarPedidosEntreDatas() {
+        //     System.out.print("Digite a data inicial (dd/MM/yyyy): ");
+        //     String dataInicial= entrada.nextLine();
+        //     entrada.nextLine();
+        //     System.out.print("Digite a data final (dd/MM/yyyy): ");
+        //     String dataFinal = entrada.nextLine();
 
-            for (Pedido pedido : empresa.getPedidos()) {
-                if (estaNoIntervalo(pedido.getDataCriacao(), pedido.getDataConclusao())) {
-                    System.out.println(pedido);
-                }
+        //     for (Pedido pedido : empresa.getPedidos()) {
+        //         if (estaNoIntervalo(pedido.getDataCriacao(), pedido.getDataConclusao())) {
+        //             System.out.println(pedido);
+        //         }
+        //     }
+
+        //     for (Pedido p : empresa.getPedidos()) {
+        //         if (p.getDataCriacao().equals(dataFinal));
+        //     }
+        // }
+        // public boolean estaNoIntervalo(LocalDate dataCriacao, LocalDate dataConclusao) {
+        //     return dataPedido.compareTo(dataCriacao) >= 0 && dataPedido.compareTo(dataConclusao) <= 0;
+        // }
+
+        //3
+        public void listarPedidosEntreDatas(){
+            System.out.print("Informe o dia de início: ");
+            int diaInicio = entrada.nextInt();
+            System.out.print("Informe o mês de inínio: ");
+            int mesInicio = entrada.nextInt();
+            System.out.print("Informe o dia de final: ");
+            int diaFinal = entrada.nextInt();
+            System.out.print("Informe o mês de final: ");
+            int mesFinal = entrada.nextInt();
+            for (Pedido pedido : empresa.getPedidos()){
+                for(int i = 0; i > diaInic)
             }
 
-            for (Pedido p : empresa.getPedidos()) {
-                if (p.getDataCriacao().equals(dataFinal))
-            }
+
         }
 
-
-        public boolean estaNoIntervalo(LocalDate dataCriacao, LocalDate dataConclusao) {
-            return dataPedido.compareTo(dataCriacao) >= 0 && dataPedido.compareTo(dataConclusao) <= 0;
-        }
-
-        //4 buscar pedidos por funcionário
+        //4 buscar pedidos por funcionário CERTO
         public void buscarPedidosPorFuncionario() {
-            System.out.print("Digite o nome do funcionário: ");
-            String nome = entrada.nextLine();
+            System.out.print("Digite o identificador do funcionário: ");
+            int id = entrada.nextInt();
             for (Pedido pedido : empresa.getPedidos()) {
-                if (pedido.getUsuSolicitante().getNome().equals(nome)) {
+                if (pedido.getUsuSolicitante().getIdentificador() == id) {
+                    System.out.println();
+                    System.out.println("4 - Buscar pedidos por funcionário solicitante:");
                     System.out.println(pedido);
                 }
             }
         }
 
-        // 5 buscar pedidos pela descrição do item CERTO
+        // 5 buscar pedidos pela descrição do item MUDAARRR!! 
         public void buscarPedidosPorDescricao() {
             entrada.nextLine();
-            System.out.print("Digite a descrição do item: ");
+            System.out.print("Digite a descrição do item: (iniciar com letra maiúscula) ");
             String descricao = entrada.nextLine();
 
+            System.out.println();
+            System.out.println("5 - Buscar pedidos pela descrição de um item:");
             for (Pedido p : empresa.buscaPorDesc(descricao)) {
                 System.out.println(p.toString());
             }
         }
-
 
         public void menuEstatisticas (Usuario administrador) {
             while (true){
@@ -199,12 +215,10 @@ public class App {
             }
         }
 
-        //1 método para calcular porcentagem e dividir por apv/rep/con
         public void calculaPercentual(ArrayList<Pedido> pedidos){
             int totalPedidos = pedidos.size();
             double aprovados = 0;
             double reprovados  = 0;
-            double concluidos  = 0;
 
             for(Pedido p : pedidos){
                 switch (p.getStatus()) {
@@ -214,72 +228,64 @@ public class App {
                     case "Reprovado":
                         reprovados++;
                         break;
-                    case "Concluído":
-                    concluidos++;
-                        break;
                 }
             }
 
-            if (aprovados > 0 && reprovados == 0 && concluidos == 0) {
+            if (aprovados > 0 && reprovados == 0) {
                 System.out.println("A porcentagem de aprovados é de: 100%");
                 System.out.println("A porcentagem de reprovados é de: 0%");
                 System.out.println("A porcentagem de concluídos é de: 0%");
                 return;
-            }else if (reprovados > 0 && aprovados == 0 && concluidos == 0) {
+            }else if (reprovados > 0 && aprovados == 0) {
                 System.out.println("A porcentagem de aprovados é de: 0%");
                 System.out.println("A porcentagem de reprovados é de: 100%");
                 System.out.println("A porcentagem de concluídos é de: 0%");
                 return;
-            }else if (concluidos > 0 && aprovados == 0 && reprovados == 0) {
-                System.out.println("A porcentagem de aprovados é de: 0%");
-                System.out.println("A porcentagem de reprovados é de: 0%");
-                System.out.println("A porcentagem de concluídos é de: 100%");
-                return;
             }else{
                 double percAprovados = (aprovados / totalPedidos) * 100;
                 double percReprovados = (reprovados / totalPedidos) * 100;
-                double percConcluídos = (concluidos / totalPedidos) * 100;
 
+                System.out.println();
+                System.out.println("1 - Número de pedidos total, divididos entre aprovados e reprovados com seus percentuais");
+                System.out.println("O número de aprovados é de: " + aprovados);
                 System.out.println("A porcentagem de aprovados é de: " + percAprovados + "%");
+                System.out.println("O número de aprovados é de: " + reprovados);
                 System.out.println("A porcentagem de reprovados é de: " + percReprovados + "%"); 
-                System.out.println("A porcetnagem de concluídos é de: " + percConcluídos + "%");
+                System.out.println();
             }
         }
 
-        //2 método para últimos 30 dias e valor médio
-        public void pedidosUltimos30Dias(ArrayList<Pedido> pedidos){
+        public void pedidosUltimos30Dias(ArrayList<Pedido> pedidos) {
             LocalDate hoje = LocalDate.now();
             LocalDate limite = hoje.minusDays(30);
-            Map<String, Double> totalPorCategoria = new HashMap<>();
-            Map<String, Integer> contagemPorCategoria = new HashMap<>();
-
+            double valorTotalTodosPedidos = 0.0;
+            int contagemTotalProdutos = 0;
+            int count = 0;
+        
             for (Pedido pedido : pedidos) {
                 if (pedido.getDataCriacao().isAfter(limite)) {
                     for (Produto produto : pedido.getProdutos()) {
-                        String categoria = produto.getDescricao();
                         double valorUnitario = produto.getValorUnitario();
-
-                        // Atualiza o total por categoria
-                        totalPorCategoria.put(categoria, totalPorCategoria.getOrDefault(categoria, 0.0) + valorUnitario);
-                        // Atualiza a contagem por categoria
-                        contagemPorCategoria.put(categoria, contagemPorCategoria.getOrDefault(categoria, 0) + 1);
+                        count++;
+                        valorTotalTodosPedidos += valorUnitario;
+                        contagemTotalProdutos++;
                     }
                 }
             }
-
-            // Exibe os resultados
-            for (String categoria : totalPorCategoria.keySet()) {
-                double total = totalPorCategoria.get(categoria);
-                int contagem = contagemPorCategoria.get(categoria);
-                double media = total / contagem; // Calcula a média
-
-                System.out.println("Categoria: " + categoria + 
-                                ", Valor Total: R$ " + total + 
-                                ", Valor Médio: R$ " + media);
+            if (contagemTotalProdutos == 0) {
+                System.out.println("Nenhum produto encontrado nos últimos 30 dias.");
+                return;
             }
-        }
-
-        //3 valor de cada categoria nos últimos 30 dias
+        
+            double mediaTodosPedidos = valorTotalTodosPedidos / contagemTotalProdutos;
+        
+            System.out.println();
+            System.out.println("2 - Número de pedidos nos últimos 30 dias e seu valor médio:");
+            System.out.println("O número de pedidos nos últimos 30 dias é de: " + count);
+            System.out.println("E o valor médio é de: R$ " + mediaTodosPedidos);
+            System.out.println();
+        }  
+        
         public void valorPorCategoriaUltimos30Dias(ArrayList<Pedido> pedidos) {
             LocalDate hoje = LocalDate.now();
             LocalDate limite = hoje.minusDays(30);
@@ -288,18 +294,20 @@ public class App {
             for (Pedido pedido : pedidos) {
                 if (pedido.getDataCriacao().isAfter(limite)) {
                     for (Produto produto : pedido.getProdutos()) {
-                        String categoria = produto.getDescricao(); // Ajuste se necessário
+                        String categoria = produto.getDescricao();
                         totalPorCategoria.put(categoria, totalPorCategoria.getOrDefault(categoria, 0.0) + produto.getValorUnitario());
                     }
                 }
             }
-        
+            
+            System.out.println();
+            System.out.println("3 - Valor total de cada categoria nos últimos 30 dias:");
             for (String categoria : totalPorCategoria.keySet()) {
                 System.out.println("Categoria: " + categoria + ", Valor Total: R$ " + totalPorCategoria.get(categoria));
             }
+            System.out.println();
         }
 
-        //4 maior valor
         public void maiorPedidoAberto(ArrayList<Pedido> pedidos) {
             Pedido maiorPedido = null;
             double maiorValor = 0;
@@ -311,15 +319,17 @@ public class App {
                 }
             }
         
+            System.out.println();
+            System.out.println("4 - Detalhes do pedido de aquisição de maior valor ainda aberto:");
             if (maiorPedido != null) {
                 System.out.println("Detalhes do maior pedido em aberto:");
                 System.out.println(maiorPedido.toString());
             } else {
                 System.out.println("Não há pedidos em aberto.");
+                System.out.println();
             }
         }
 
-        //menu funcionário
         public void menuFuncionario (Usuario funcionario) {
             while (true) { 
                 System.out.println(funcionario.getNome() + ", o que você deseja fazer? ");
@@ -397,15 +407,18 @@ public class App {
             ArrayList<Produto> compras = new ArrayList<>();
             
             while (true) {
+                System.out.println();
                 System.out.print("Informe o dia de hoje: ");
                 int dia = entrada.nextInt();
                 System.out.print("Informe o mês: ");
                 int mes = entrada.nextInt();
 
+                System.out.println();
                 System.out.println(usuario.getNome() + " qual item abaixo você deseja adquirir? ");
                 int contador = 1;
                 for (Produto i : todosProdutos) {
                     System.out.println(contador + " - " + i.toString());
+                    System.out.println();
                     contador ++;
                 }
                 System.out.println("Qual desse você deseja adquirir? ");
@@ -419,6 +432,7 @@ public class App {
                 System.out.println("Total desse item: R$ " +  todosProdutos.get(c-1).getValorUnitario() * qtd);
                 System.out.println("Deseja adicionar mais um item? [S/N]");
                 String resp = entrada.nextLine();
+                System.out.println();
                 if (resp.toUpperCase().equals("N")) {
                     System.out.println("Revisão do pedido: ");
                     Pedido p = new Pedido (usuario, depPedido, LocalDate.of(2024, mes,dia));
@@ -488,7 +502,6 @@ public class App {
 
         empresa.setDepartamentos(departamentos);
 
-        // Criação de pedidos iniciais e registro
         Pedido pedido1 = new Pedido(u1, ti, LocalDate.of(2024, 10, 4));
         Pedido pedido2 = new Pedido(u4, rh, LocalDate.of(2024, 3, 26));
         Pedido pedido3 = new Pedido(u7, marketing, LocalDate.of(2024, 6, 15));
@@ -512,7 +525,6 @@ public class App {
         produtosPedido3.add(p5);
         pedido3.setProdutos(produtosPedido3);
 
-        // Registrando os pedidos na empresa
         empresa.adicionaPedido(pedido1);
         empresa.adicionaPedido(pedido2);
         empresa.adicionaPedido(pedido3);
@@ -520,21 +532,5 @@ public class App {
         pedido1.setStatus("Aprovado");
         pedido2.setStatus("Aprovado");
         pedido3.setStatus("Reprovado");
-
-
-
     }
 }
-
-        //Pedido pedido1 = new Pedido(LocalDate.of(2024, 10, 4));
-        // Pedido pedido2 = new Pedido(LocalDate.of(2024,3,26));
-
-        // empresa.registrarPedidos(pedido1);
-        // empresa.registrarPedidos(pedido2);
-
-        // empresa.pedidosIntervaloTempo(LocalDate.of(2024,1,1), LocalDate.of(2024,6,1));
-        // ArrayList<Pedido> p = empresa.pedidosIntervaloTempo(LocalDate.of(2024,1,1), LocalDate.of(2024,6,1));
-        
-        // for (Pedido pe : p) {
-        //     System.out.println(pe.toString());
-        // }
