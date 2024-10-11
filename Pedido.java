@@ -30,7 +30,7 @@ public class Pedido {
     public String toString() {
         String retorno = "Usuário solicitante: " + this.usuSolicitante.getNome() + "\nData do pedido: " + this.dataCriacao + "\nStatus: " + this.status + "\nProdutos: \n" ;
         for (Produto p : produtos) {
-            retorno += p.toString();
+            retorno += p.toString()+"\n";
         }
         retorno += "\nValor total: R$ " + calculaTotal();
         return retorno;

@@ -62,4 +62,18 @@ public class Empresa {
         pedidos.remove(p);
     }
 
+    public ArrayList<Pedido> buscaPorDesc(String desc) {
+        ArrayList<Pedido> retorno = new ArrayList<>();
+        //ArrayList<Produto> retorno = pedidos.getProdutos();
+    
+        for (Pedido p : pedidos) {
+            for (Produto prod : p.getProdutos()) {
+                if (prod.getDescricao().equals(desc)) {
+                    retorno.add(p);
+                }
+            }
+        }
+        return retorno;
+    }
+
 }

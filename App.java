@@ -81,7 +81,7 @@ public class App {
             boolean encontrou = false;
             System.out.println("Pedidos abertos:");
             for (Pedido pedido : empresa.getPedidos()) {
-                if (!pedido.getStatus().equals("Aberto")) {
+                if (pedido.getStatus().equals("Aberto")) {
                     System.out.println(pedido);
                     encontrou = true;
                 }
@@ -102,7 +102,7 @@ public class App {
                         System.out.print("Deseja Aprovar o pedido?");
                         String resposta = entrada.nextLine();
                         if (resposta.equalsIgnoreCase("S")) {
-                            pedido.setStatus = ("Aprovado");
+                            pedido.setStatus("Aprovado");
                             System.out.println("Pedido aprovado.");
                         } else {
                             System.out.println("Deseja concluir?");
@@ -136,13 +136,19 @@ public class App {
             String dataFinal = entrada.nextLine();
 
             for (Pedido pedido : empresa.getPedidos()) {
-                if (estaNoIntervalo(pedido.dataPedido, dataInicial, dataFinal)) {
+                if (estaNoIntervalo(pedido.getDataCriacao(), pedido.getDataConclusao())) {
                     System.out.println(pedido);
                 }
             }
+
+            for (Pedido p : empresa.getPedidos()) {
+                if (p.getDataCriacao().equals(dataFinal))
+            }
         }
-        public boolean estaNoIntervalo(String dataPedido, String dataInicial, String dataFinal) {
-            return dataPedido.compareTo(dataInicial) >= 0 && dataPedido.compareTo(dataFinal) <= 0;
+
+
+        public boolean estaNoIntervalo(LocalDate dataCriacao, LocalDate dataConclusao) {
+            return dataPedido.compareTo(dataCriacao) >= 0 && dataPedido.compareTo(dataConclusao) <= 0;
         }
 
         //4 buscar pedidos por funcionário
@@ -150,71 +156,23 @@ public class App {
             System.out.print("Digite o nome do funcionário: ");
             String nome = entrada.nextLine();
             for (Pedido pedido : empresa.getPedidos()) {
-                if (pedido.funcionario.equalsIgnoreCase(nome)) {
+                if (pedido.getUsuSolicitante().getNome().equals(nome)) {
                     System.out.println(pedido);
                 }
             }
         }
 
-        // 5 buscar pedidos pela descrição do item
+        // 5 buscar pedidos pela descrição do item CERTO
         public void buscarPedidosPorDescricao() {
-            System.out.print("Digite a descrição do item: ");
-            String descricao = entrada.nextLine();;
-            for (Pedido pedido : empresa.getPedidos()) {
-                if (pedido.descricao.toLowerCase().contains(descricao.toLowerCase())) {
-                    System.out.println(pedido);
-                }
-            }
-        }
-
-        // 5 buscar pedidos por descrição do item
-        public void buscarPedidos() {
-            System.out.println("Como você gostaria de pesquisar?");
-            System.out.println("1 - Pesquisar por nome do pedido");
-            System.out.println("2 - Pesquisar por descrição do pedido");
-            int opcao = entrada.nextInt();
             entrada.nextLine();
+            System.out.print("Digite a descrição do item: ");
+            String descricao = entrada.nextLine();
 
-            if (opcao == 1) {
-                System.out.print("Digite o nome do pedido: ");
-                String nome = entrada.nextLine();
-                buscarPorNome(nome, empresa.getPedidos());
-            } else if (opcao == 2) {
-                System.out.print("Digite a descrição do pedido: ");
-                String descricao = entrada.nextLine();
-                buscarPorDescricao(descricao, empresa.getPedidos());
-            } else {
-                System.out.println("Opção inválida. Por favor, tente novamente.");
+            for (Pedido p : empresa.buscaPorDesc(descricao)) {
+                System.out.println(p.toString());
             }
         }
 
-        // 5.1 buscar por nome do pedido
-        private void buscarPorNome(String nome, ArrayList<Pedido> pedidos) {
-            boolean encontrou = false;
-            for (Pedido pedido : pedidos) {
-                if (produto.getNome().equalsIgnoreCase(nome)) {
-                    System.out.println(pedido);
-                    encontrou = true;
-                }
-            }
-            if (!encontrou) {
-                System.out.println("Nenhum pedido encontrado com esse nome.");
-            }
-        }
-
-        // 5.2 buscar por descrição do pedido
-        private void buscarPorDescricao(String descricao, ArrayList<Pedido> pedidos) {
-            boolean encontrou = false;
-            for (Pedido p : pedidos) {
-                if (p.getProdutos().getDescricao().toLowerCase().contains(descricao.toLowerCase())) {
-                    System.out.println(p);
-                    encontrou = true;
-                }
-            }
-            if (!encontrou) {
-                System.out.println("Nenhum pedido encontrado com essa descrição.");
-            }
-        }
 
         public void menuEstatisticas (Usuario administrador) {
             while (true){
