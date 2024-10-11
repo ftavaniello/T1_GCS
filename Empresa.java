@@ -64,7 +64,6 @@ public class Empresa {
 
     public ArrayList<Pedido> buscaPorDesc(String desc) {
         ArrayList<Pedido> retorno = new ArrayList<>();
-        //ArrayList<Produto> retorno = pedidos.getProdutos();
     
         for (Pedido p : pedidos) {
             for (Produto prod : p.getProdutos()) {

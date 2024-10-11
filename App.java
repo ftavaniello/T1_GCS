@@ -125,29 +125,7 @@ public class App {
             }
         }
 
-        //3 listar pedidos entre duas datas  MUDAAAARRR!!!!
-        // public void listarPedidosEntreDatas() {
-        //     System.out.print("Digite a data inicial (dd/MM/yyyy): ");
-        //     String dataInicial= entrada.nextLine();
-        //     entrada.nextLine();
-        //     System.out.print("Digite a data final (dd/MM/yyyy): ");
-        //     String dataFinal = entrada.nextLine();
-
-        //     for (Pedido pedido : empresa.getPedidos()) {
-        //         if (estaNoIntervalo(pedido.getDataCriacao(), pedido.getDataConclusao())) {
-        //             System.out.println(pedido);
-        //         }
-        //     }
-
-        //     for (Pedido p : empresa.getPedidos()) {
-        //         if (p.getDataCriacao().equals(dataFinal));
-        //     }
-        // }
-        // public boolean estaNoIntervalo(LocalDate dataCriacao, LocalDate dataConclusao) {
-        //     return dataPedido.compareTo(dataCriacao) >= 0 && dataPedido.compareTo(dataConclusao) <= 0;
-        // }
-
-        //3
+        //3 CERTO
         public void listarPedidosEntreDatas(){
             System.out.print("Informe o dia de início: ");
             int diaInicio = entrada.nextInt();
@@ -157,11 +135,18 @@ public class App {
             int diaFinal = entrada.nextInt();
             System.out.print("Informe o mês de final: ");
             int mesFinal = entrada.nextInt();
+            LocalDate dataInicio = LocalDate.of(2024, mesInicio, diaInicio);
+            LocalDate dataFinal = LocalDate.of(2024, mesFinal, diaFinal);
             for (Pedido pedido : empresa.getPedidos()){
-                for(int i = 0; i > diaInic)
+                LocalDate dataCriacao = pedido.getDataCriacao();
+                if ((dataCriacao.isEqual(dataInicio) || dataCriacao.isAfter(dataInicio)) &&
+                (dataCriacao.isEqual(dataFinal) || dataCriacao.isBefore(dataFinal))){
+                    System.out.println(pedido);
+                }else{
+                    System.out.println("Não existe pedidos neste intervalo de tempo");
+                    break;
+                }
             }
-
-
         }
 
         //4 buscar pedidos por funcionário CERTO
@@ -177,7 +162,7 @@ public class App {
             }
         }
 
-        // 5 buscar pedidos pela descrição do item MUDAARRR!! 
+        // 5 buscar pedidos pela descrição do item CERTO
         public void buscarPedidosPorDescricao() {
             entrada.nextLine();
             System.out.print("Digite a descrição do item: (iniciar com letra maiúscula) ");
@@ -185,7 +170,11 @@ public class App {
 
             System.out.println();
             System.out.println("5 - Buscar pedidos pela descrição de um item:");
-            for (Pedido p : empresa.buscaPorDesc(descricao)) {
+            ArrayList<Pedido> retorno = empresa.buscaPorDesc(descricao);
+            if (retorno.size() == 0){
+                System.out.println("Não existe pedidos criados com esta descrição");
+            }
+            for (Pedido p : retorno) {
                 System.out.println(p.toString());
             }
         }
