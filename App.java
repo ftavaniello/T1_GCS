@@ -77,7 +77,7 @@ public class App {
         public void avaliarSolicitacoes() {
             while (true) {
                 boolean encontrou = false;
-                List<Pedido> pedidosAbertos = new ArrayList<>();
+                ArrayList<Pedido> pedidosAbertos = new ArrayList<>();
                 System.out.println("\nPedidos abertos:");
                 int count = 1;
                 for (Pedido pedido : empresa.getPedidos()) {
@@ -517,7 +517,6 @@ public class App {
         empresa.adicionaPedido(pedido3);
 
         pedido1.setStatus("Aprovado");
-        pedido2.setStatus("Aprovado");
-        pedido3.setStatus("Reprovado");
+        pedido2.setStatus("Reprovado");
     }
 }
